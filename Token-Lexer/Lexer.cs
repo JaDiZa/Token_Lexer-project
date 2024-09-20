@@ -97,12 +97,14 @@ public class Lexer
             }
 
             // Check for operators
+            bool isOp = false;
             foreach (var op in Operators)
             {
                 if (sourceCode.Substring(index).StartsWith(op))
                 {
                     tokens.Add(new Token(TokenType.Operator, op));
                     index += op.Length;
+                    isOp = true;
                     break;
                 }
             }
@@ -114,7 +116,7 @@ public class Lexer
                 index++;
                 continue;
             }
-
+            if (isOp) { continue; }
             // Unknown token
             tokens.Add(new Token(TokenType.Unknown, currentChar.ToString()));
             index++;
